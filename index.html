@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gpybyte.dev — новые единицы измерения данных</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(15, 25, 45, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 3rem;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(59,130,246,0.2);
+            overflow: hidden;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .logo-badge {
+            background: #1e293b;
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            font-size: 1.2rem;
+            font-weight: normal;
+            color: #94a3b8;
+            letter-spacing: 0;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            border-left: 3px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        .converter-card {
+            background: #0f172ad9;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            margin: 2rem 0;
+            border: 1px solid #334155;
+        }
+        .converter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: flex-end;
+        }
+        .conv-field {
+            flex: 1;
+            min-width: 160px;
+        }
+        label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 0.4rem;
+        }
+        input, select {
+            width: 100%;
+            background: #020617;
+            border: 1px solid #334155;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1rem;
+            color: #f1f5f9;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.3);
+        }
+        button {
+            background: linear-gradient(95deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 2rem;
+            padding: 0.8rem 1.8rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+            margin-top: 0.6rem;
+        }
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(59,130,246,0.4);
+        }
+        .result-box {
+            background: #020617cc;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            word-break: break-all;
+            border-left: 5px solid #3b82f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .result-text {
+            flex: 1;
+        }
+        .copy-btn {
+            background: #334155;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            margin-top: 0;
+            margin-left: 1rem;
+        }
+        .meme-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin: 2rem 0 1rem;
+            text-align: center;
+            border: 1px dashed #facc15;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #334155;
+            padding: 0.6rem;
+            text-align: left;
+        }
+        th {
+            background: #1e293b;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            color: #5b6e8c;
+        }
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>
+        🄶🅟🅈🄱 &nbsp;🄷🅟🅈🄱 &nbsp;🄸🅟🅈🄱
+        <span class="logo-badge">GIS v1.0</span>
+    </h1>
+    <div class="tagline">
+        ✦ Гибридные единицы после йобибайта ✦ 1 ipy = 2⁹⁰ B ✦ 1 hpy = 1000 ipy ✦ 1 gpy = 1000 hpy
+    </div>
+
+    <!-- КАЛЬКУЛЯТОР -->
+    <div class="converter-card">
+        <h2 style="margin-bottom: 1rem;">🌀 Конвертер всех единиц</h2>
+        <div class="converter-grid">
+            <div class="conv-field">
+                <label>Значение</label>
+                <input type="number" id="inputValue" value="1" step="any" placeholder="Число">
+            </div>
+            <div class="conv-field">
+                <label>Из единицы</label>
+                <select id="fromUnit">
+                    <optgroup label="Двоичные (IEC)">
+                        <option value="B">Байт (B)</option>
+                        <option value="KiB">Кибибайт (KiB)</option>
+                        <option value="MiB">Мебибайт (MiB)</option>
+                        <option value="GiB">Гибибайт (GiB)</option>
+                        <option value="TiB">Тебибайт (TiB)</option>
+                        <option value="PiB">Пебибайт (PiB)</option>
+                        <option value="EiB">Эксбибайт (EiB)</option>
+                        <option value="ZiB">Зебибайт (ZiB)</option>
+                        <option value="YiB">Йобибайт (YiB)</option>
+                    </optgroup>
+                    <optgroup label="Новые (GIS)">
+                        <option value="ipybyte" selected>ipybyte (IpyB)</option>
+                        <option value="hpybyte">hpybyte (HpyB)</option>
+                        <option value="gpybyte">gpybyte (GpyB)</option>
+                    </optgroup>
+                    <optgroup label="Десятичные (SI)">
+                        <option value="KB">Килобайт (KB, 1000 B)</option>
+                        <option value="MB">Мегабайт (MB, 10⁶ B)</option>
+                        <option value="GB">Гигабайт (GB, 10⁹ B)</option>
+                        <option value="TB">Терабайт (TB, 10¹² B)</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="conv-field">
+                <label>В единицу</label>
+                <select id="toUnit">
+                    <option value="B">Байт (B)</option>
+                    <option value="gpybyte" selected>gpybyte (GpyB)</option>
+                    <option value="hpybyte">hpybyte (HpyB)</option>
+                    <option value="ipybyte">ipybyte (IpyB)</option>
+                    <option value="YiB">Йобибайт (YiB)</option>
+                    <option value="GB">Гигабайт (GB)</option>
+                </select>
+            </div>
+            <div class="conv-field">
+                <button id="convertBtn">✨ Конвертировать ✨</button>
+            </div>
+        </div>
+        <div class="result-box" id="resultArea">
+            <span class="result-text">Введите значения и нажмите «Конвертировать»</span>
+            <button class="copy-btn" id="copyBtn">📋 Копировать</button>
+        </div>
+    </div>
+
+    <!-- БЛОК МЕМОВ (без 67) -->
+    <div class="meme-section">
+        <p id="memeText" style="margin-top: 0.8rem; font-style: italic; color: #cbd5e1;">Загрузка мема...</p>
+        <button id="newMemeBtn" style="background: #facc15; color:#0f172a; margin-top: 0.8rem;">🎲 Новый мем / факт</button>
+    </div>
+
+    <h2>📐 Определения</h2>
+    <ul>
+        <li><strong>1 ipybyte (IpyB)</strong> = 2⁹⁰ байт = 1 237 940 039 285 380 274 899 124 224 байт</li>
+        <li><strong>1 hpybyte (HpyB)</strong> = 1000 × ipybyte</li>
+        <li><strong>1 gpybyte (GpyB)</strong> = 1000 × hpybyte = 1 000 000 × ipybyte</li>
+    </ul>
+
+    <h2>⚡ Быстрая таблица</h2>
+    <table>
+        <tr><th>Единица</th><th>В байтах</th><th>≈ в gpybyte</th></tr>
+        <tr><td>1 ipybyte</td><td>2⁹⁰ B</td><td>0.000001 gpybyte</td></tr>
+        <tr><td>1 hpybyte</td><td>1000 × 2⁹⁰ B</td><td>0.001 gpybyte</td></tr>
+        <tr><td>1 gpybyte</td><td>10⁶ × 2⁹⁰ B</td><td>1 gpybyte</td></tr>
+        <tr><td>1 йобибайт (YiB)</td><td>2⁸⁰ B</td><td>≈ 0.00097656 gpybyte</td></tr>
+    </table>
+
+    <h2>🐍 Код для разработчиков</h2>
+    <pre style="background:#0f172a; padding: 1rem; border-radius: 1rem; overflow-x: auto;"><code># Python (GIS)
+IPY = 2 ** 90
+HPY = 1000 * IPY
+GPY = 1000 * HPY
+
+def to_gpy(bytes_val): return bytes_val / GPY
+def from_gpy(gpy_val): return gpy_val * GPY
+
+// JavaScript (BigInt)
+const IPY = 2n ** 90n;
+const HPY = 1000n * IPY;
+const GPY = 1000n * HPY;</code></pre>
+
+    <div class="footer">
+        © 2025 Gpybyte Independent Standard (MIT) — создано для тех, кто верит в данные за пределами йобибайта.<br>
+        <a href="#">GitHub</a> · <a href="#">Статья на Habr</a> · <a href="#">Документ GIS v1.0</a>
+    </div>
+</div>
+
+<script>
+    // КОЭФФИЦИЕНТЫ В БАЙТЫ (BigInt)
+    const toBytesMap = {
+        'B': 1n,
+        'KiB': 1024n,
+        'MiB': 1024n ** 2n,
+        'GiB': 1024n ** 3n,
+        'TiB': 1024n ** 4n,
+        'PiB': 1024n ** 5n,
+        'EiB': 1024n ** 6n,
+        'ZiB': 1024n ** 7n,
+        'YiB': 1024n ** 8n,
+        'ipybyte': 2n ** 90n,
+        'hpybyte': 1000n * (2n ** 90n),
+        'gpybyte': 1000000n * (2n ** 90n),
+        'KB': 1000n,
+        'MB': 1000n ** 2n,
+        'GB': 1000n ** 3n,
+        'TB': 1000n ** 4n
+    };
+
+    function fromBytes(bytesBigInt, targetUnit) {
+        const divisor = toBytesMap[targetUnit];
+        if (!divisor) return 0;
+        return Number(bytesBigInt) / Number(divisor);
+    }
+
+    document.getElementById('convertBtn').addEventListener('click', () => {
+        const valueInput = document.getElementById('inputValue').value;
+        const fromUnit = document.getElementById('fromUnit').value;
+        const toUnit = document.getElementById('toUnit').value;
+
+        let num = parseFloat(valueInput);
+        if (isNaN(num)) {
+            document.querySelector('.result-text').innerText = 'Ошибка: введите число';
+            return;
+        }
+
+        const factorFrom = toBytesMap[fromUnit];
+        if (!factorFrom) {
+            document.querySelector('.result-text').innerText = 'Неизвестная единица';
+            return;
+        }
+
+        let bytesBigInt;
+        try {
+            let integerPart = BigInt(Math.floor(num));
+            let fractionalPart = num - Math.floor(num);
+            let fractionalBytes = 0;
+            if (fractionalPart !== 0) {
+                fractionalBytes = Math.round(fractionalPart * Number(factorFrom));
+            }
+            bytesBigInt = integerPart * factorFrom + BigInt(fractionalBytes);
+        } catch(e) {
+            bytesBigInt = BigInt(Math.round(num * Number(factorFrom)));
+        }
+
+        let result = fromBytes(bytesBigInt, toUnit);
+        let resultStr;
+        if (Math.abs(result) < 0.001 && result !== 0) {
+            resultStr = result.toExponential(6);
+        } else if (Math.abs(result) > 1e12) {
+            resultStr = result.toExponential(6);
+        } else {
+            resultStr = result.toLocaleString(undefined, { maximumFractionDigits: 10 });
+        }
+
+        document.querySelector('.result-text').innerHTML = `<strong>${valueInput} ${fromUnit}</strong> = <strong>${resultStr} ${toUnit}</strong><br><span style="font-size:0.75rem; opacity:0.7;">(≈ ${bytesBigInt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} байт)</span>`;
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+        const text = document.querySelector('.result-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Результат скопирован в буфер!');
+        });
+    });
+
+    // МЕМЫ БЕЗ 67
+    const memes = [
+        "gpybyte — это когда йобибайт уже не впечатляет.",
+        "Если бы вы могли сжать интернет, он занял бы всего 0.42 gpybyte.",
+        "1 gpybyte — это примерно миллион ipybyte. Или 10¹⁸ гигабайт. Уже страшно?",
+        "Стандарт GIS: потому что ждать IEC до 2050 года скучно.",
+        "Когда друг спрашивает, сколько места на диске, а вы отвечаете: «Около 0.0000002 gpybyte».",
+        "gpybyte — официальная единица измерения данных в далёком 2125 году.",
+        "Твоя стрим-библиотека через 100 лет: 'У вас осталось 0.005 gpybyte свободного места'."
+    ];
+
+    function updateMeme() {
+        const randomIndex = Math.floor(Math.random() * memes.length);
+        document.getElementById('memeText').innerHTML = `💾 ${memes[randomIndex]} 💾`;
+    }
+    updateMeme();
+    document.getElementById('newMemeBtn').addEventListener('click', updateMeme);
+</script>
+</body>
+</html>
